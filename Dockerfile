@@ -1,4 +1,4 @@
-FROM php:7.2-fpm
+FROM php:7.2-apache
 
 ENV MAGENTO_VERSION 2.3.1
 ENV INSTALL_DIR /var/www/html
@@ -6,9 +6,9 @@ ENV COMPOSER_HOME /var/www/.composer/
 
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer
-COPY ./auth.json $COMPOSER_HOME
+COPY ./.bin/auth.json $COMPOSER_HOME
 
-RUN requirements="libpng12-dev libmcrypt-dev libmcrypt4 libcurl3-dev libfreetype6 libjpeg-turbo8 libjpeg-turbo8-dev libpng12-dev libfreetype6-dev libicu-dev libxslt1-dev unzip" \
+RUN requirements="libpng-dev libmcrypt-dev libmcrypt4 libcurl3-dev libfreetype6 libjpeg62-turbo libjpeg62-turbo-dev libpng-dev libfreetype6-dev libicu-dev libxslt1-dev unzip" \
     && apt-get update \
     && apt-get install -y $requirements \
     && rm -rf /var/lib/apt/lists/* \
@@ -22,7 +22,7 @@ RUN requirements="libpng12-dev libmcrypt-dev libmcrypt4 libcurl3-dev libfreetype
     && docker-php-ext-install soap \
     && docker-php-ext-install bcmath \
     && docker-php-ext-install mysqli && docker-php-ext-enable mysqli \
-    && requirementsToRemove="libpng12-dev libmcrypt-dev libcurl3-dev libpng12-dev libfreetype6-dev libjpeg-turbo8-dev" \
+    && requirementsToRemove="libpng-dev libmcrypt-dev libcurl3-dev libfreetype6-dev libjpeg62-turbo-dev" \
     && apt-get purge --auto-remove -y $requirementsToRemove
 
 RUN apt-get update \
