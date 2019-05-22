@@ -8,7 +8,7 @@ RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer
 COPY ./.bin/auth.json $COMPOSER_HOME
 
-RUN requirements="libpng-dev libmcrypt-dev libmcrypt4 libcurl3-dev libfreetype6 libjpeg62-turbo libjpeg62-turbo-dev libpng-dev libfreetype6-dev libicu-dev libxslt1-dev unzip" \
+RUN requirements="libpng-dev libmcrypt-dev libmcrypt4 libcurl3-dev libfreetype6 libjpeg62-turbo libjpeg62-turbo-dev libpng-dev libfreetype6-dev libicu-dev libxslt1-dev unzip cron" \
     && apt-get update \
     && apt-get install -y $requirements \
     && rm -rf /var/lib/apt/lists/* \
@@ -60,6 +60,6 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 WORKDIR $INSTALL_DIR
 
 # Add cron job
-ADD crontab /etc/cron.d/magento2-cron
+ADD ./.bin/crontab /etc/cron.d/magento2-cron
 RUN chmod 0644 /etc/cron.d/magento2-cron \
     && crontab -u www-data /etc/cron.d/magento2-cron
