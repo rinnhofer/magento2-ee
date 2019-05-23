@@ -1,4 +1,4 @@
-FROM php:7.2-apache
+FROM php:7.1-apache
 
 ARG MAGENTO_VERSION
 ENV MAGENTO_VERSION=$MAGENTO_VERSION
@@ -28,8 +28,7 @@ RUN requirements="libpng-dev libmcrypt-dev libmcrypt4 libcurl3-dev libfreetype6 
 
 RUN apt-get update \
     && apt-get install -y libmcrypt-dev \
-    && yes '' | pecl install mcrypt-1.0.1 \
-    && echo 'extension=mcrypt.so' > /usr/local/etc/php/conf.d/mcrypt.ini
+    && docker-php-ext-install  mcrypt
 
 RUN chsh -s /bin/bash www-data
 
