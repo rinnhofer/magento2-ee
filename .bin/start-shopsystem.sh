@@ -5,8 +5,9 @@ export MAGENTO_CONTAINER_NAME=web
 export MYSQL_DATABASE=magento
 export MYSQL_USER=magento
 export MYSQL_PASSWORD=magento
+export MAGENTO_VERSION=2.2.8
 
-#docker-compose build --build-arg GATEWAY=${GATEWAY} web
+docker-compose build --build-arg MAGENTO_VERSION=${MAGENTO_VERSION} web
 docker-compose up -d
 sleep 30
 while ! $(curl --output /dev/null --silent --head --fail "${NGROK_URL}"); do
